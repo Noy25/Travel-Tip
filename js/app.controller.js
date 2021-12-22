@@ -5,9 +5,9 @@ import { mapService } from './services/map.service.js'
 window.onload = onInit;
 window.onAddMarker = onAddMarker;
 window.onPanTo = onPanTo;
-window.renderLocs = renderLocs;
 window.onGetUserPos = onGetUserPos;
 window.onAddLoc = onAddLoc;
+window.onDeleteLoc = onDeleteLoc;
 
 function onInit() {
     renderLocs();
@@ -30,8 +30,8 @@ function renderLocs() {
             <tr>
                 <td>${loc.name}</td>
                 <td>
-                    <button class="fa" onclick="onPanTo(${loc.lat, loc.lng})">Go</button>
-                    <button class="fa" onclick="onDeleteLoc(${loc.id})">Delete</button>
+                    <button class="fas fa-location-arrow" onclick="onPanTo(${loc.lat + ',' + loc.lng})">Go</button>
+                    <button class="fas fa-trash" onclick="onDeleteLoc('${loc.id}')">Delete</button>
                 </td>
             </tr>`)
             document.querySelector('.locs-table tbody').innerHTML = locsHTMLs.join('');
@@ -57,12 +57,23 @@ function onGetUserPos() {
 function onPanTo(lat = 35.6895, lng = 139.6917) {
     console.log('Panning the Map');
     mapService.panTo(lat, lng);
+    console.log(lat, lng);
 }
 
 function onAddLoc(mapEv) {
+    console.log(mapEv.latLng.toJSON());
     const { lat, lng } = mapEv.latLng.toJSON();
     const name = prompt('Insert place name:');
+    console.log(lat, lng);
+    if (!name) return
     locService.addLoc(name, lat, lng);
+    mapService.addMarker({ lat, lng });
     mapService.panTo(lat, lng);
+    renderLocs();
+}
+
+function onDeleteLoc(locId) {
+    if (!confirm('are you sure?')) return;
+    locService.deleteLoc(locId);
     renderLocs();
 }

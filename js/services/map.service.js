@@ -4,6 +4,7 @@ export const mapService = {
     panTo,
     getPosition
 }
+import { locService } from './location.service.js'
 
 let gMap;
 
@@ -16,7 +17,9 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 zoom: 15
             })
             // Adds marker on location
-            addMarker({ lat, lng });
+            locService.getLocs()
+                .then(locs => locs.forEach(loc => addMarker({ lat: loc.lat, lng: loc.lng })))
+            // addMarker({ lat, lng });
             gMap.addListener("click", onAddLoc)
         })
 }
