@@ -16,19 +16,22 @@
 
 <body>
 
-    <div class="wrapper">
+    <div class="wrapper main-layout">
 
-        <header>
-            <h1>Travel Tipot</h1>
-            <input type="text">
-            <button>GO</button>
+        <header class="margin-top flex justify-between align-center">
+            <h1>Travel Tipot<span>.</span></h1>
+            <!-- <p>save your favorite locations</p> -->
+            <form class="flex">
+                <input type="text" placeholder="Enter Location">
+                <button class="btn">GO</button>
+            </form>
         </header>
 
-        <div class="curr-location">
-            <p>Location : <span></span></p>
+        <div class="curr-location margin-top">
+            <h2>Location : <span>*current location will go here*</span></h2>
         </div>
 
-        <main>
+        <main class="margin-top flex justify-between">
 
             <section>
 
@@ -50,15 +53,17 @@
 
             <!-- MAP -->
 
-            <div id="map" style="width: 100%; height: 400px;">
-
+            <div id="map">
             </div>
-            <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
-            <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
 
-            <p>You are at: <span class="user-pos"></span></p>
 
         </main>
+
+        <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
+        <button onclick="onGetUserPos()" class="btn-user-pos">My Location</button>
+
+        <p>You are at: <span class="user-pos"></span></p>
+
 
     </div>
 
