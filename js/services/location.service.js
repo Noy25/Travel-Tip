@@ -7,8 +7,8 @@ export const locService = {
 import { utils } from '../utils.js'
 
 const locs = [
-    createLoc('Greatplace', 32.047104, 34.832384),
-    createLoc('Neveragain', 32.047201, 34.832581)
+    createLoc('Great place', 32.047104, 34.832384),
+    createLoc('Never again', 32.047201, 34.832581)
 ]
 
 function getLocs() {

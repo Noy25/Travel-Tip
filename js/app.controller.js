@@ -9,10 +9,23 @@ window.onGetUserPos = onGetUserPos;
 window.onAddLoc = onAddLoc;
 window.onDeleteLoc = onDeleteLoc;
 window.onSearch = onSearch;
+window.onCopyLink = onCopyLink;
+
+let gCurrLatLng = { lat: 32.0749831, lng: 34.9120554 }
 
 function onInit() {
     renderLocs();
-    mapService.initMap()
+    const url = new URL(window.location.href);
+    console.log(url);
+    let lat = undefined;
+    let lng = undefined;
+    console.log(url.searchParams);
+    if (url.searchParams.get('lat')) {
+        lat = +url.searchParams.get('lat');
+        console.log(lat);
+        lng = +url.searchParams.get('lng');
+    }
+    mapService.initMap(lat, lng)
         .then(() => {
             console.log('Map is ready');
         })
@@ -59,6 +72,7 @@ function onPanTo(lat = 35.6895, lng = 139.6917) {
     console.log('Panning the Map');
     mapService.panTo(lat, lng);
     console.log(lat, lng);
+    gCurrLatLng = { lat, lng }
 }
 
 function onAddLoc(mapEv) {
@@ -66,8 +80,9 @@ function onAddLoc(mapEv) {
     const { lat, lng } = mapEv.latLng.toJSON();
     const name = prompt('Insert place name:');
     if (!name) return
+    gCurrLatLng = { lat, lng };
     locService.addLoc(name, lat, lng);
-    mapService.addMarker({ lat, lng });
+    mapService.addMarker(gCurrLatLng);
     mapService.panTo(lat, lng);
     renderLocs();
 }
@@ -86,4 +101,9 @@ function onSearch(ev) {
             renderLocs()
             elInputSearch.value = '';
         })
+}
+
+function onCopyLink() {
+    const text = `https://noy25.github.io/Travel-Tip/index.html?lat=${gCurrLatLng.lat}&lng=${gCurrLatLng.lng}`
+    navigator.clipboard.writeText(text);
 }
