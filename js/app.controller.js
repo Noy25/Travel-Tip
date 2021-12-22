@@ -44,11 +44,15 @@ function onGetUserPos() {
 function getPosition() {
     console.log('Getting Pos');
     return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject)
+        navigator.geolocation.getCurrentPosition((pos)=>{
+            const { longitude, latitude } = pos.coords;
+            onPanTo(longitude, latitude)
+            resolve(pos)
+        }, reject)
     })
 }
 
-function onPanTo() {
+function onPanTo(lat = 35.6895, lng = 139.6917) {
     console.log('Panning the Map');
-    mapService.panTo(35.6895, 139.6917);
+    mapService.panTo(lat, lng);
 }

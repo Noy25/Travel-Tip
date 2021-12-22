@@ -14,6 +14,8 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 center: { lat, lng },
                 zoom: 15
             })
+            // Adds marker on location
+            addMarker({ lat, lng });
         })
 }
 
@@ -21,7 +23,8 @@ function addMarker(loc) {
     const marker = new google.maps.Marker({
         position: loc,
         map: gMap,
-        title: 'Hello World!'
+        title: 'Location',
+        animation: google.maps.Animation.DROP
     });
     return marker;
 }
