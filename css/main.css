@@ -15,15 +15,16 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1em;
 }
 
-body {
-    background-color: lightskyblue;
-    /********** DELETE LATER : **********/
-    padding: 0 10px;
+body{
+    min-width: 100vw;
+    min-height: 100vh;
 }
+
 
 /********** HELPERS **********/
 
 .main-layout {
+    padding: 0 10px;
     max-width: 1200px;
     margin: auto;
 }
@@ -65,7 +66,7 @@ body {
 /* BUTTONS */
 
 .search-btn {
-    padding: 13px 20px;
+    padding: 12px 20px 12px 10px;
     border: none;
     background-color: #58ad58;
     border-end-end-radius: 2em;
@@ -85,6 +86,10 @@ body {
     transform: scale(.95);
 }
 
+.search-btn::before:hover{
+    transform: scale(1.1);
+}
+
 .loc-btn{
     border: none;
     background: none;
@@ -94,9 +99,15 @@ body {
 
 /* HEADER */
 
+header{
+    background-color: rgb(209, 209, 209);
+    padding: 10px;
+}
+
 h1 {
     font-size: 2.5rem;
     letter-spacing: -2px;
+    color: #2b7e2b;
 }
 
 input[type="search"] {

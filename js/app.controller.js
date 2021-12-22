@@ -49,8 +49,6 @@ function renderLocs() {
                 </td>
             </tr>`)
             document.querySelector('.locs-table tbody').innerHTML = locsHTMLs.join('');
-            // console.log('Locations:', locs)
-            // document.querySelector('.locs').innerText = JSON.stringify(locs)
         })
 }
 

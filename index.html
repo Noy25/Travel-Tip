@@ -19,56 +19,53 @@
 
 <body>
 
-    <div class="wrapper main-layout">
-
-        <header class="margin-top flex justify-between align-center">
+    <header>
+        <div class="main-layout flex justify-between align-center">
             <h1>Travel Tipot<span>.</span></h1>
             <!-- <p>save your favorite locations</p> -->
             <form class="flex" onsubmit="onSearch(event)">
-                <input type="search" placeholder="Enter Location" autocomplete>
-                <button class="search-btn">GO</button>
+                <input type="search" placeholder="Enter location" autocomplete>
+                <button class="fas fa-location-arrow search-btn"></button>
             </form>
-        </header>
+        </div>
+    </header>
 
-        <div class="curr-location margin-top">
-            <h2>Location : <span>*current location will go here*</span></h2>
+    <main class="flex justify-between main-layout">
+
+        <section>
+
+            <!-- WEATHER -->
+
+            <!-- LOCATIONS TABLE -->
+
+            <table class="locs-table">
+                <thead>
+                    <th colspan="2">My locations</th>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+
+        </section>
+
+        <!-- MAP -->
+
+        <div id="map">
         </div>
 
-        <main class="margin-top flex justify-between">
 
-            <section>
+    </main>
 
-                <!-- WEATHER -->
-
-                <!-- LOCATIONS TABLE -->
-
-                <table class="locs-table">
-                    <thead>
-                        <th>name</th>
-                        <th></th>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-
-            </section>
-
-            <!-- MAP -->
-
-            <div id="map">
-            </div>
+    <button onclick="onGetUserPos()" class="btn-user-pos">My Location</button>
+    <button onclick="onCopyLink()" class="btn-copy-link">Copy link</button>
 
 
-        </main>
-
-        <button onclick="onGetUserPos()" class="btn-user-pos">My Location</button>
-        <button onclick="onCopyLink()" class="btn-copy-link">Copy link</button>
-
-        <p>You are at: <span class="user-pos"></span></p>
-
-
+    <div class="curr-location">
+        <h2>Location : <span>*current location will go here*</span></h2>
     </div>
+
+
 
     <script src="lib/axios.js"></script>
     <script src="lib/swal.js"></script>
