@@ -4,7 +4,7 @@ import { mapService } from './services/map.service.js'
 
 window.onload = onInit;
 window.onAddMarker = onAddMarker;
-window.onPanTo = onPanTo;
+window.onGoTo = onGoTo;
 window.onGetUserPos = onGetUserPos;
 window.onAddLoc = onAddLoc;
 window.onDeleteLoc = onDeleteLoc;
@@ -42,7 +42,7 @@ function renderLocs() {
             <tr>
                 <td>${loc.name}</td>
                 <td>
-                    <button class="loc-btn fas fa-location-arrow" onclick="onPanTo(${loc.lat + ',' + loc.lng})"></button>
+                    <button class="loc-btn fas fa-location-arrow" onclick="onGoTo('${loc.id}')"></button>
                     <button class="loc-btn fas fa-trash" onclick="onDeleteLoc('${loc.id}')"></button>
                 </td>
             </tr>`)
@@ -55,7 +55,6 @@ function onGetUserPos() {
         .then(pos => {
             const { latitude, longitude } = pos.coords;
             mapService.panTo(latitude, longitude);
-            console.log('User position is:', pos.coords);
             document.querySelector('.user-pos').innerText =
                 `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
         })
@@ -64,11 +63,19 @@ function onGetUserPos() {
         })
 }
 
-function onPanTo(lat = 35.6895, lng = 139.6917) {
-    console.log('Panning the Map');
-    mapService.panTo(lat, lng);
-    console.log(lat, lng);
-    gCurrLatLng = { lat, lng }
+function onGoTo(locId) {
+    // console.log('Panning the Map');
+    // mapService.panTo(lat, lng);
+    // console.log(lat, lng);
+    // gCurrLatLng = { lat, lng }
+
+    locService.getLocs()
+        .then(locs => {
+            const locSelected = locs.find(loc => locId === loc.id)
+            const { lat, lng, name, geoName } = locSelected
+            mapService.panTo(lat, lng);
+            renderLocationName(geoName, name);
+        })
 }
 
 function onAddLoc(mapEv) {
@@ -76,13 +83,12 @@ function onAddLoc(mapEv) {
     const name = prompt('Insert place name:');
     if (!name) return
     gCurrLatLng = { lat, lng };
-    const locId = locService.addLoc(name, lat, lng);
-    mapService.addMarker(locId);
-    mapService.panTo(lat, lng);
-    renderLocs();
-    mapService.getGeoLoc(undefined, lat, lng, locId)
-        .then(geoLocName => {
-            renderLocationName(geoLocName, name);
+    mapService.getGeoLoc(undefined, lat, lng)
+        .then(geoLoc => {
+            const locId = locService.addLoc(name, geoLoc.geoName, geoLoc.lat, geoLoc.lng);
+            mapService.addMarker(locId);
+            renderLocationName(geoLoc.geoName, name);
+            renderLocs();
         })
 }
 
@@ -97,10 +103,13 @@ function onSearch(ev) {
     ev.preventDefault();
     const elInputSearch = document.querySelector('input[type="search"]');
     if (!elInputSearch.value) return;
+    const name = prompt('Insert place name:');
     mapService.getGeoLoc(elInputSearch.value)
-        .then((name) => {
+        .then(geoLoc => {
+            const locId = locService.addLoc(name, geoLoc.geoName, geoLoc.lat, geoLoc.lng);
+            mapService.addMarker(locId);
+            renderLocationName(geoLoc.geoName);
             renderLocs()
-            renderLocationName(name);
             elInputSearch.value = '';
         })
 }

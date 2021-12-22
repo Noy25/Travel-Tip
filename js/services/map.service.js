@@ -22,6 +22,8 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 center: { lat, lng },
                 zoom: 15
             })
+            const locBtn = document.querySelector('.user-pos-btn');
+            gMap.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locBtn);
             // Adds marker on location
             locService.getLocs()
                 .then(locs => locs.forEach(loc => addMarker(loc.id)))
@@ -72,7 +74,7 @@ function getPosition() {
     });
 }
 
-function getGeoLoc(searchedLoc, locLat, locLng, locId) {
+function getGeoLoc(searchedLoc, locLat, locLng) {
     let searchStr;
     let url;
 
@@ -90,13 +92,7 @@ function getGeoLoc(searchedLoc, locLat, locLng, locId) {
             const { lat, lng } = ans.data.results[0].geometry.location;
             console.log('lat', lat, 'lng', lng);
             panTo(lat, lng);
-            if (searchedLoc) {
-                const locId = locService.addLoc(geoName, lat, lng);
-                addMarker(locId);
-            } else {
-                locService.setLocGeoName(locId, geoName)
-            }
-            return geoName;
+            return { lat, lng, geoName }
         })
 }
 
