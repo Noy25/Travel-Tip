@@ -1,3 +1,5 @@
+/* BASICS */
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -13,10 +15,15 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1em;
 }
 
+body {
+    background-color: lightskyblue;
+}
+
 /********** HELPERS **********/
 
 .main-layout {
     max-width: 1200px;
+    margin: auto;
 }
 
 /* FLEX */
@@ -49,9 +56,48 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
 }
 
+/* BUTTONS */
+
+.btn {
+    padding: 13px 20px;
+    border: none;
+}
+
+.btn:hover {
+    opacity: .7;
+    cursor: pointer;
+}
+
+.btn:active {
+    transform: scale(.95);
+}
+
 /********** START **********/
 
 /* HEADER */
+
+header {
+    padding: 20px 0;
+}
+
+h1 {
+    font-size: 2.5rem;
+    letter-spacing: -2px;
+}
+
+input[type="text"] {
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    border: none;
+    outline: none;
+}
+
+/* TO BE GIVEN A NAME / CHANGED POSITION */
+
+.curr-location h2 {
+    font-size: 2rem;
+}
 
 /***** MAIN *****/
 
@@ -60,3 +106,8 @@ h1, h2, h3, h4, h5, h6 {
 /* LOCATIONS TABLE */
 
 /* MAP */
+
+#map {
+    width: 50%;
+    height: 800px;
+}
