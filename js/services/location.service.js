@@ -2,6 +2,7 @@ export const locService = {
     getLocs,
     addLoc,
     deleteLoc,
+    setLocGeoName
 }
 
 import { utils } from '../utils.js'
@@ -29,10 +30,18 @@ function createLoc(name, lat, lng) {
 }
 
 function addLoc(name, lat, lng) {
-    locs.push(createLoc(name, lat, lng));
+    const loc = createLoc(name, lat, lng)
+    locs.push(loc);
+    return loc.id;
 }
 
 function deleteLoc(locId) {
     const locIdx = locs.findIndex(loc => loc.id === locId);
     locs.splice(locIdx, 1);
+    console.log(locs);
+}
+
+function setLocGeoName(locId, geoName) {
+    const loc = locs.find(loc => loc.id === locId)
+    loc.geoName = geoName
 }

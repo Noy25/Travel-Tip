@@ -10,19 +10,17 @@ window.onAddLoc = onAddLoc;
 window.onDeleteLoc = onDeleteLoc;
 window.onSearch = onSearch;
 window.onCopyLink = onCopyLink;
+window.renderLocationName = renderLocationName;
 
 let gCurrLatLng = { lat: 32.0749831, lng: 34.9120554 }
 
 function onInit() {
     renderLocs();
     const url = new URL(window.location.href);
-    console.log(url);
-    let lat = undefined;
-    let lng = undefined;
-    console.log(url.searchParams);
+    let lat;
+    let lng;
     if (url.searchParams.get('lat')) {
         lat = +url.searchParams.get('lat');
-        console.log(lat);
         lng = +url.searchParams.get('lng');
     }
     mapService.initMap(lat, lng)
@@ -76,29 +74,35 @@ function onPanTo(lat = 35.6895, lng = 139.6917) {
 }
 
 function onAddLoc(mapEv) {
-    console.log(mapEv.latLng.toJSON());
     const { lat, lng } = mapEv.latLng.toJSON();
     const name = prompt('Insert place name:');
     if (!name) return
     gCurrLatLng = { lat, lng };
-    locService.addLoc(name, lat, lng);
-    mapService.addMarker(gCurrLatLng);
+    const locId = locService.addLoc(name, lat, lng);
+    mapService.addMarker(locId);
     mapService.panTo(lat, lng);
     renderLocs();
+    mapService.getGeoLoc(undefined, lat, lng, locId)
+        .then(geoLocName => {
+            renderLocationName(geoLocName, name);
+        })
 }
 
 function onDeleteLoc(locId) {
     if (!confirm('are you sure?')) return;
     locService.deleteLoc(locId);
+    mapService.deleteMarker(locId);
     renderLocs();
 }
 
 function onSearch(ev) {
     ev.preventDefault();
     const elInputSearch = document.querySelector('input[type="search"]');
-    mapService.getSearchedLoc(elInputSearch.value)
-        .then(() => {
+    if (!elInputSearch.value) return;
+    mapService.getGeoLoc(elInputSearch.value)
+        .then((name) => {
             renderLocs()
+            renderLocationName(name);
             elInputSearch.value = '';
         })
 }
@@ -106,4 +110,9 @@ function onSearch(ev) {
 function onCopyLink() {
     const text = `https://noy25.github.io/Travel-Tip/index.html?lat=${gCurrLatLng.lat}&lng=${gCurrLatLng.lng}`
     navigator.clipboard.writeText(text);
+}
+
+function renderLocationName(geoLocName, locName) {
+    const elLocationName = document.querySelector('.curr-location span');
+    elLocationName.innerText = (locName) ? `${locName} (${geoLocName})` : geoLocName;
 }
