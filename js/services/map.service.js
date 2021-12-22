@@ -15,7 +15,6 @@ const gMarkers = [];
 
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
-    console.log(lat, lng);
     return _connectGoogleApi()
         .then(() => {
             gMap = new google.maps.Map(
@@ -76,6 +75,7 @@ function getPosition() {
 function getGeoLoc(searchedLoc, locLat, locLng, locId) {
     let searchStr;
     let url;
+
     if (searchedLoc) {
         searchStr = searchedLoc.replaceAll(' ', '+');
         url = `https://maps.googleapis.com/maps/api/geocode/json?address=${searchStr}&key=${GEO_API_KEY}`
@@ -83,10 +83,12 @@ function getGeoLoc(searchedLoc, locLat, locLng, locId) {
         searchStr = `latlng=${locLat},${locLng}`
         url = `https://maps.googleapis.com/maps/api/geocode/json?${searchStr}&key=${GEO_API_KEY}`
     }
+
     return axios.get(url)
         .then(ans => {
             const geoName = ans.data.results[0].formatted_address;
             const { lat, lng } = ans.data.results[0].geometry.location;
+            console.log('lat', lat, 'lng', lng);
             panTo(lat, lng);
             if (searchedLoc) {
                 const locId = locService.addLoc(geoName, lat, lng);
