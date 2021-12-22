@@ -1,0 +1,62 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    font-family: 'Poppins';
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 1em;
+}
+
+/********** HELPERS **********/
+
+.main-layout {
+    max-width: 1200px;
+}
+
+/* FLEX */
+
+.flex {
+    display: flex;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.wrap {
+    flex-wrap: wrap;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-around {
+    justify-content: space-around;
+}
+
+.align-center {
+    align-items: center;
+}
+
+/********** START **********/
+
+/* HEADER */
+
+/***** MAIN *****/
+
+/* WEATHER */
+
+/* LOCATIONS TABLE */
+
+/* MAP */

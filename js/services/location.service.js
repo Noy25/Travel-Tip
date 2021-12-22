@@ -1,6 +1,7 @@
 export const locService = {
     getLocs
 }
+
 import { utils } from '../utils.js'
 
 const GEO_API_KEY = 'AIzaSyCVc806N2WWOK0bNSHTXEBKtAjdb3FhvmM';
