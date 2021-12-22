@@ -17,6 +17,8 @@ h1, h2, h3, h4, h5, h6 {
 
 body {
     background-color: lightskyblue;
+    /********** DELETE LATER : **********/
+    padding: 0 10px;
 }
 
 /********** HELPERS **********/
@@ -24,6 +26,10 @@ body {
 .main-layout {
     max-width: 1200px;
     margin: auto;
+}
+
+.margin-top {
+    margin-top: 20px;
 }
 
 /* FLEX */
@@ -76,10 +82,6 @@ body {
 
 /* HEADER */
 
-header {
-    padding: 20px 0;
-}
-
 h1 {
     font-size: 2.5rem;
     letter-spacing: -2px;
@@ -97,6 +99,10 @@ input[type="text"] {
 
 .curr-location h2 {
     font-size: 2rem;
+}
+
+.curr-location span {
+    font-size: 1.3rem;
 }
 
 /***** MAIN *****/

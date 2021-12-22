@@ -18,7 +18,7 @@
 
     <div class="wrapper main-layout">
 
-        <header class="flex justify-between align-center">
+        <header class="margin-top flex justify-between align-center">
             <h1>Travel Tipot<span>.</span></h1>
             <!-- <p>save your favorite locations</p> -->
             <form class="flex">
@@ -27,11 +27,11 @@
             </form>
         </header>
 
-        <div class="curr-location">
+        <div class="curr-location margin-top">
             <h2>Location : <span>*current location will go here*</span></h2>
         </div>
 
-        <main class=>
+        <main class="margin-top flex justify-between">
 
             <section>
 
@@ -56,13 +56,14 @@
             <div id="map">
             </div>
             
-            <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
-            <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
-            <button onclick="onPanTo()" class="btn-pan">Pan Map to Tokyo</button>
-
-            <p>You are at: <span class="user-pos"></span></p>
-
+           
         </main>
+
+        <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
+        <button onclick="onGetUserPos()" class="btn-user-pos">My Location</button>
+
+        <p>You are at: <span class="user-pos"></span></p>
+
 
     </div>
 
