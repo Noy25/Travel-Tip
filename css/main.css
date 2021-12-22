@@ -95,6 +95,13 @@ body{
     background: none;
 }
 
+.user-pos-btn{
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 0;
+}
+
 /********** START **********/
 
 /* HEADER */
