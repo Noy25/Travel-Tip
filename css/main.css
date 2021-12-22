@@ -64,18 +64,30 @@ body {
 
 /* BUTTONS */
 
-.btn {
+.search-btn {
     padding: 13px 20px;
     border: none;
+    background-color: #58ad58;
+    border-end-end-radius: 2em;
+    border-start-end-radius: 2em;
+    color: white;
+    /* font-weight: 80; */
+    font-size: 1.1rem;
 }
 
-.btn:hover {
-    opacity: .7;
+.search-btn:hover {
+    /* opacity: .7; */
+    background: linear-gradient(90deg, rgba(88,173,88,1) 19%, rgba(35,101,35,1) 100%);
     cursor: pointer;
 }
 
-.btn:active {
+.search-btn:active {
     transform: scale(.95);
+}
+
+.loc-btn{
+    border: none;
+    background: none;
 }
 
 /********** START **********/
@@ -93,6 +105,9 @@ input[type="search"] {
     font-size: 1.1rem;
     border: none;
     outline: none;
+    border-end-start-radius: 2em;
+    border-start-start-radius: 2em;
+    background:  linear-gradient(90deg, rgba(255,255,255,1) 87%, rgba(88,173,88,1) 99%);
 }
 
 /* TO BE GIVEN A NAME / CHANGED POSITION */
