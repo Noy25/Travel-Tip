@@ -11,6 +11,7 @@ window.onDeleteLoc = onDeleteLoc;
 window.onSearch = onSearch;
 window.onCopyLink = onCopyLink;
 window.renderLocationName = renderLocationName;
+window.renderWeather = renderWeather;
 
 let gCurrLatLng = { lat: 32.0749831, lng: 34.9120554 }
 
@@ -22,7 +23,11 @@ function onInit() {
     if (url.searchParams.get('lat')) {
         lat = +url.searchParams.get('lat');
         lng = +url.searchParams.get('lng');
+        gCurrLatLng.lat = lat;
+        gCurrLatLng.lng = lng;
     }
+    locService.getWeather(gCurrLatLng.lat, gCurrLatLng.lng)
+        .then(renderWeather);
     mapService.initMap(lat, lng)
         .then(() => {
             console.log('Map is ready');
@@ -64,17 +69,14 @@ function onGetUserPos() {
 }
 
 function onGoTo(locId) {
-    // console.log('Panning the Map');
-    // mapService.panTo(lat, lng);
-    // console.log(lat, lng);
-    // gCurrLatLng = { lat, lng }
-
     locService.getLocs()
         .then(locs => {
             const locSelected = locs.find(loc => locId === loc.id)
             const { lat, lng, name, geoName } = locSelected
             mapService.panTo(lat, lng);
             renderLocationName(geoName, name);
+            locService.getWeather(lat, lng)
+                .then(renderWeather)
         })
 }
 
@@ -89,6 +91,8 @@ function onAddLoc(mapEv) {
             mapService.addMarker(locId);
             renderLocationName(geoLoc.geoName, name);
             renderLocs();
+            locService.getWeather(lat, lng)
+                .then(renderWeather);
         })
 }
 
@@ -111,6 +115,8 @@ function onSearch(ev) {
             renderLocationName(geoLoc.geoName);
             renderLocs()
             elInputSearch.value = '';
+            locService.getWeather(geoLoc.lat, geoLoc.lng)
+                .then(renderWeather)
         })
 }
 
@@ -122,4 +128,15 @@ function onCopyLink() {
 function renderLocationName(geoLocName, locName) {
     const elLocationName = document.querySelector('.curr-location span');
     elLocationName.innerText = (locName) ? `${locName} (${geoLocName})` : geoLocName;
+}
+
+function renderWeather(weather) {
+    const elWeather = document.querySelector('.weather');
+
+    const strHTML = `<h2>Weather today</h2>
+    <img src="${weather.weatherImg}">
+    <h4>${weather.locName}, ${weather.country}, <span>${weather.weatherDescription}</span></h4>
+    <h5><span>${weather.tempNow}</span> temperature from ${weather.tempMin} to ${weather.tempMax}, wind ${weather.windSpeed} m/s.</h5>`;
+
+    elWeather.innerHTML = strHTML;
 }
