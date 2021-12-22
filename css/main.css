@@ -20,6 +20,10 @@ body{
     min-height: 100vh;
 }
 
+button{
+    cursor: pointer;
+}
+
 
 /********** HELPERS **********/
 
@@ -100,6 +104,11 @@ body{
     height: 40px;
     border: none;
     border-radius: 0;
+    background-color: white;
+    font-weight: 800;
+    box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;
+    margin: 10px;
+    color: rgb(68, 68, 68);
 }
 
 /********** START **********/
@@ -148,5 +157,5 @@ input[type="search"] {
 
 #map {
     width: 50%;
-    height: 800px;
+    height: 650px;
 }
