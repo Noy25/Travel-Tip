@@ -64,11 +64,6 @@ function onGetUserPos() {
 }
 
 function onGoTo(locId) {
-    // console.log('Panning the Map');
-    // mapService.panTo(lat, lng);
-    // console.log(lat, lng);
-    // gCurrLatLng = { lat, lng }
-
     locService.getLocs()
         .then(locs => {
             const locSelected = locs.find(loc => locId === loc.id)
@@ -120,6 +115,6 @@ function onCopyLink() {
 }
 
 function renderLocationName(geoLocName, locName) {
-    const elLocationName = document.querySelector('.curr-location span');
+    const elLocationName = document.querySelector('.curr-location');
     elLocationName.innerText = (locName) ? `${locName} (${geoLocName})` : geoLocName;
 }

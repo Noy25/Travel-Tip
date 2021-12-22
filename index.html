@@ -30,9 +30,11 @@
         </div>
     </header>
 
-    <main class="flex justify-between main-layout">
+    <main>
 
-        <section>
+
+        <section class="chosen-loc-info main-layout">
+            <h2 class="curr-location">Hadar Ganim, Petah Tikwa</h2>
 
             <!-- WEATHER -->
 
@@ -42,34 +44,36 @@
                 <h4><span></span></h4>
                 <h5></h5>
             </div>
-            
+
             </div>
-
-            <!-- LOCATIONS TABLE -->
-
-            <h2 class="curr-location">Location : <span>*current location will go here*</span></h2>
-            <table class="locs-table">
-                <thead>
-                    <th colspan="2">My locations</th>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-
+            <button onclick="onCopyLink()" class="btn-copy-link">Copy link</button>
         </section>
 
         <!-- MAP -->
 
         <div id="map"></div>
 
+        <!-- LOCATIONS TABLE -->
+        <section class="my-locations">
+
+            <h2>My locations</h2>
+            <table class="locs-table">
+                <tbody>
+
+                </tbody>
+            </table>
+        </section>
+
+
 
     </main>
 
+    <footer>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit non quod at!</p>
+        <p>© N&S Ltd.</p>
+    </footer>
+
     <button onclick="onGetUserPos()" class="user-pos-btn fas fa-2x fa-crosshairs"></button>
-    <button onclick="onCopyLink()" class="btn-copy-link">Copy link</button>
-
-
 
 
 
