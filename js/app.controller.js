@@ -4,7 +4,7 @@ import { mapService } from './services/map.service.js'
 window.onload = onInit;
 window.onAddMarker = onAddMarker;
 window.onPanTo = onPanTo;
-window.onGetLocs = onGetLocs;
+window.renderLocs = renderLocs;
 window.onGetUserPos = onGetUserPos;
 
 function onInit() {
@@ -20,11 +20,20 @@ function onAddMarker() {
     mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
 }
 
-function onGetLocs() {
+function renderLocs() {
     locService.getLocs()
         .then(locs => {
-            console.log('Locations:', locs)
-            document.querySelector('.locs').innerText = JSON.stringify(locs)
+            const locsHTMLs = locs.map(loc => `
+            <tr>
+                <td>${loc.name}</td>
+                <td>
+                    <button class="fa" onclick="onPanTo(${loc.lat, loc.lng})">Go</button>
+                    <button class="fa" onclick="onDeleteLoc(${loc.id})">Delete</button>
+                </td>
+            </tr>`)
+            document.querySelector('.locs-table tbody').innerHTML = locsHTMLs.join('');
+            // console.log('Locations:', locs)
+            // document.querySelector('.locs').innerText = JSON.stringify(locs)
         })
 }
 
