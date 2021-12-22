@@ -19,7 +19,7 @@ function onInit() {
     let lat = undefined;
     let lng = undefined;
     console.log(url.searchParams);
-    if (url.searchParams) {
+    if (url.searchParams.get('lat')) {
         lat = +url.searchParams.get('lat');
         console.log(lat);
         lng = +url.searchParams.get('lng');

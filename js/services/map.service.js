@@ -20,7 +20,7 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
             // Adds marker on location
             locService.getLocs()
                 .then(locs => locs.forEach(loc => addMarker({ lat: loc.lat, lng: loc.lng })))
-            // addMarker({ lat, lng });
+            addMarker({ lat, lng });
             gMap.addListener("click", onAddLoc)
         })
 }
