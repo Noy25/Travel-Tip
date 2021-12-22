@@ -15,7 +15,6 @@ const gMarkers = [];
 
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
-    console.log(lat, lng);
     return _connectGoogleApi()
         .then(() => {
             gMap = new google.maps.Map(
@@ -24,7 +23,6 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 zoom: 15
             })
             const locBtn = document.querySelector('.user-pos-btn');
-            console.log(document);
             gMap.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locBtn);
             // Adds marker on location
             locService.getLocs()
@@ -37,7 +35,6 @@ function addMarker(locId) {
     locService.getLocs()
         .then(locs => locs.find(loc => loc.id === locId))
         .then(loc => {
-            console.log(loc);
             const marker = new google.maps.Marker({
                 position: { lat: loc.lat, lng: loc.lng },
                 map: gMap,
