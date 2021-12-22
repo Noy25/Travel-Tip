@@ -1,5 +1,6 @@
 export const locService = {
-    getLocs
+    getLocs,
+    addLoc
 }
 
 import { utils } from '../utils.js'
@@ -26,4 +27,8 @@ function createLoc(name, lat, lng) {
         createdAt: Date.now(),
         updatedAt: Date.now()
     }
+}
+
+function addLoc(name, lat, lng) {
+    locs.push(createLoc(name, lat, lng));
 }

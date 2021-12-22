@@ -1,3 +1,4 @@
+// export const appController={onAddLoc}
 import { locService } from './services/location.service.js'
 import { mapService } from './services/map.service.js'
 
@@ -6,6 +7,7 @@ window.onAddMarker = onAddMarker;
 window.onPanTo = onPanTo;
 window.renderLocs = renderLocs;
 window.onGetUserPos = onGetUserPos;
+window.onAddLoc = onAddLoc;
 
 function onInit() {
     mapService.initMap()
@@ -53,5 +55,12 @@ function onGetUserPos() {
 
 function onPanTo(lat = 35.6895, lng = 139.6917) {
     console.log('Panning the Map');
+    mapService.panTo(lat, lng);
+}
+
+function onAddLoc(mapEv) {
+    const { lat, lng } = mapEv.latLng.toJSON();
+    const name = prompt('Insert place name:');
+    locService.addLoc(name, lat, lng);
     mapService.panTo(lat, lng);
 }
