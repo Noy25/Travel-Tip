@@ -8,6 +8,7 @@ window.onPanTo = onPanTo;
 window.onGetUserPos = onGetUserPos;
 window.onAddLoc = onAddLoc;
 window.onDeleteLoc = onDeleteLoc;
+window.onSearch = onSearch;
 
 function onInit() {
     renderLocs();
@@ -64,7 +65,6 @@ function onAddLoc(mapEv) {
     console.log(mapEv.latLng.toJSON());
     const { lat, lng } = mapEv.latLng.toJSON();
     const name = prompt('Insert place name:');
-    console.log(lat, lng);
     if (!name) return
     locService.addLoc(name, lat, lng);
     mapService.addMarker({ lat, lng });
@@ -76,4 +76,14 @@ function onDeleteLoc(locId) {
     if (!confirm('are you sure?')) return;
     locService.deleteLoc(locId);
     renderLocs();
+}
+
+function onSearch(ev) {
+    ev.preventDefault();
+    const elInputSearch = document.querySelector('input[type="search"]');
+    mapService.getSearchedLoc(elInputSearch.value)
+        .then(() => {
+            renderLocs()
+            elInputSearch.value = '';
+        })
 }

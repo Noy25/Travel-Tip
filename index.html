@@ -21,8 +21,8 @@
         <header class="margin-top flex justify-between align-center">
             <h1>Travel Tipot<span>.</span></h1>
             <!-- <p>save your favorite locations</p> -->
-            <form class="flex">
-                <input type="text" placeholder="Enter Location">
+            <form class="flex" onsubmit="onSearch(event)">
+                <input type="search" placeholder="Enter Location" autocomplete>
                 <button class="btn">GO</button>
             </form>
         </header>
@@ -67,6 +67,8 @@
 
     </div>
 
+    <script src="lib/axios.js"></script>
+    <script src="lib/swal.js"></script>
     <script type="module" src="js/app.controller.js"></script>
 
 </body>

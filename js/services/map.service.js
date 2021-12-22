@@ -2,11 +2,15 @@ export const mapService = {
     initMap,
     addMarker,
     panTo,
-    getPosition
+    getPosition,
+    getSearchedLoc
 }
 import { locService } from './location.service.js'
 
+const GEO_API_KEY = 'AIzaSyCVc806N2WWOK0bNSHTXEBKtAjdb3FhvmM';
+
 let gMap;
+
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     return _connectGoogleApi()
@@ -60,4 +64,15 @@ function getPosition() {
     return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject);
     });
+}
+
+function getSearchedLoc(searchedLoc) {
+    const searchStr = searchedLoc.replaceAll(' ', '+');
+    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${searchStr}&key=${GEO_API_KEY}`)
+        .then(ans => {
+            const name = ans.data.results[0].formatted_address;
+            const { lat, lng } = ans.data.results[0].geometry.location;
+            panTo(lat, lng);
+            locService.addLoc(name, lat, lng);
+        })
 }

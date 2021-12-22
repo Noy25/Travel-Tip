@@ -1,12 +1,10 @@
 export const locService = {
     getLocs,
     addLoc,
-    deleteLoc
+    deleteLoc,
 }
 
 import { utils } from '../utils.js'
-
-const GEO_API_KEY = 'AIzaSyCVc806N2WWOK0bNSHTXEBKtAjdb3FhvmM';
 
 const locs = [
     createLoc('Greatplace', 32.047104, 34.832384),
