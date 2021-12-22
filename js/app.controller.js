@@ -38,8 +38,10 @@ function renderLocs() {
 }
 
 function onGetUserPos() {
-    getPosition()
+    mapService.getPosition()
         .then(pos => {
+            const { latitude, longitude } = pos.coords;
+            mapService.panTo(latitude, longitude);
             console.log('User position is:', pos.coords);
             document.querySelector('.user-pos').innerText =
                 `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
@@ -47,18 +49,6 @@ function onGetUserPos() {
         .catch(err => {
             console.log('err!!!', err);
         })
-}
-
-// This function provides a Promise API to the callback-based-api of getCurrentPosition
-function getPosition() {
-    console.log('Getting Pos');
-    return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition((pos)=>{
-            const { longitude, latitude } = pos.coords;
-            onPanTo(longitude, latitude)
-            resolve(pos)
-        }, reject)
-    })
 }
 
 function onPanTo(lat = 35.6895, lng = 139.6917) {
