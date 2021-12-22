@@ -20,8 +20,9 @@ function onInit() {
     let lng = undefined;
     console.log(url.searchParams);
     if (url.searchParams) {
-        lat = url.searchParams.get('lat');
-        lng = url.searchParams.get('lng');
+        lat = +url.searchParams.get('lat');
+        console.log(lat);
+        lng = +url.searchParams.get('lng');
     }
     mapService.initMap(lat, lng)
         .then(() => {
