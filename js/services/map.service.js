@@ -3,13 +3,15 @@ export const mapService = {
     addMarker,
     panTo,
     getPosition,
-    getSearchedLoc
+    getGeoLoc,
+    deleteMarker
 }
 import { locService } from './location.service.js'
 
 const GEO_API_KEY = 'AIzaSyCVc806N2WWOK0bNSHTXEBKtAjdb3FhvmM';
 
 let gMap;
+const gMarkers = [];
 
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
@@ -23,20 +25,24 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
             })
             // Adds marker on location
             locService.getLocs()
-                .then(locs => locs.forEach(loc => addMarker({ lat: loc.lat, lng: loc.lng })))
-            addMarker({ lat, lng });
+                .then(locs => locs.forEach(loc => addMarker(loc.id)))
             gMap.addListener("click", onAddLoc)
         })
 }
 
-function addMarker(loc) {
-    const marker = new google.maps.Marker({
-        position: loc,
-        map: gMap,
-        title: 'Location',
-        animation: google.maps.Animation.DROP
-    });
-    return marker;
+function addMarker(locId) {
+    locService.getLocs()
+        .then(locs => locs.find(loc => loc.id === locId))
+        .then(loc => {
+            const marker = new google.maps.Marker({
+                position: { lat: loc.lat, lng: loc.lng },
+                map: gMap,
+                title: loc.name,
+                animation: google.maps.Animation.DROP,
+                id: loc.id
+            });
+            gMarkers.push(marker);
+        })
 }
 
 function panTo(lat, lng) {
@@ -67,13 +73,33 @@ function getPosition() {
     });
 }
 
-function getSearchedLoc(searchedLoc) {
-    const searchStr = searchedLoc.replaceAll(' ', '+');
-    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${searchStr}&key=${GEO_API_KEY}`)
+function getGeoLoc(searchedLoc, locLat, locLng, locId) {
+    let searchStr;
+    let url;
+    if (searchedLoc) {
+        searchStr = searchedLoc.replaceAll(' ', '+');
+        url = `https://maps.googleapis.com/maps/api/geocode/json?address=${searchStr}&key=${GEO_API_KEY}`
+    } else {
+        searchStr = `latlng=${locLat},${locLng}`
+        url = `https://maps.googleapis.com/maps/api/geocode/json?${searchStr}&key=${GEO_API_KEY}`
+    }
+    return axios.get(url)
         .then(ans => {
-            const name = ans.data.results[0].formatted_address;
+            const geoName = ans.data.results[0].formatted_address;
             const { lat, lng } = ans.data.results[0].geometry.location;
             panTo(lat, lng);
-            locService.addLoc(name, lat, lng);
+            if (searchedLoc) {
+                const locId = locService.addLoc(geoName, lat, lng);
+                addMarker(locId);
+            } else {
+                locService.setLocGeoName(locId, geoName)
+            }
+            return geoName;
         })
+}
+
+function deleteMarker(markerId) {
+    const markerIdx = gMarkers.findIndex(marker => marker.id === markerId);
+    gMarkers[markerIdx].setMap(null);
+    gMarkers.splice(markerIdx, 1);
 }
