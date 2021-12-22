@@ -14,10 +14,11 @@ let gCurrLatLng = { lat: 32.0749831, lng: 34.9120554 }
 
 function onInit() {
     renderLocs();
-    const url = window.location.href;
+    const url = new URL(window.location.href);
     console.log(url);
     let lat = undefined;
     let lng = undefined;
+    console.log(url.searchParams);
     if (url.searchParams) {
         lat = url.searchParams.get('lat');
         lng = url.searchParams.get('lng');

@@ -9,6 +9,7 @@ import { locService } from './location.service.js'
 let gMap;
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
+    console.log(lat, lng);
     return _connectGoogleApi()
         .then(() => {
             gMap = new google.maps.Map(
