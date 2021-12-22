@@ -10,6 +10,7 @@ window.onGetUserPos = onGetUserPos;
 window.onAddLoc = onAddLoc;
 
 function onInit() {
+    renderLocs();
     mapService.initMap()
         .then(() => {
             console.log('Map is ready');
@@ -63,4 +64,5 @@ function onAddLoc(mapEv) {
     const name = prompt('Insert place name:');
     locService.addLoc(name, lat, lng);
     mapService.panTo(lat, lng);
+    renderLocs();
 }
