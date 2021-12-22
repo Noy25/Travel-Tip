@@ -42,8 +42,8 @@ function renderLocs() {
             <tr>
                 <td>${loc.name}</td>
                 <td>
-                    <button class="fas fa-location-arrow" onclick="onPanTo(${loc.lat + ',' + loc.lng})">Go</button>
-                    <button class="fas fa-trash" onclick="onDeleteLoc('${loc.id}')">Delete</button>
+                    <button class="loc-btn fas fa-location-arrow" onclick="onPanTo(${loc.lat + ',' + loc.lng})"></button>
+                    <button class="loc-btn fas fa-trash" onclick="onDeleteLoc('${loc.id}')"></button>
                 </td>
             </tr>`)
             document.querySelector('.locs-table tbody').innerHTML = locsHTMLs.join('');
