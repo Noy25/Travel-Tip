@@ -226,6 +226,10 @@ main>*{
     border-bottom: 1px rgba(163, 163, 163, 0.212) solid;
 }
 
+.location-line p{
+    text-transform: capitalize;
+}
+
 .fa-trash{
     color: #dd6464;
 }
@@ -264,7 +268,7 @@ footer{
 }
 
 @media(max-width:630px){
- main.main-layout{
+ main{
     grid-template-columns: 1fr;
     grid-template-rows: 100vw auto auto ;
     grid-template-areas: 
@@ -280,4 +284,14 @@ footer{
  .curr-location{
      text-align: center;
  }
+}
+
+@media(min-width:1200px){
+    main{
+        max-width: 1200px;
+        margin: auto;
+    }
+    .main-layout{
+        padding:0;
+    }
 }
