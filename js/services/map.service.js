@@ -22,11 +22,9 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 center: { lat, lng },
                 zoom: 15
             })
-            const locBtn = document.querySelector('.user-pos-btn');
-            gMap.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locBtn);
             locService.getLocs()
-                .then(locs => locs.forEach(loc => addMarker(loc.id)))
-            gMap.addListener("click", onAddLoc)
+                .then(locs => locs.forEach(loc => addMarker(loc)))
+            return gMap
         })
 }
 
@@ -44,20 +42,17 @@ function _connectGoogleApi() {
     })
 }
 
-function addMarker(locId) {
-    locService.getLocs()
-        .then(locs => locs.find(loc => loc.id === locId))
-        .then(loc => {
-            const marker = new google.maps.Marker({
-                position: { lat: loc.lat, lng: loc.lng },
-                map: gMap,
-                title: loc.name,
-                animation: google.maps.Animation.DROP,
-                id: loc.id,
-                icon: 'imgs/pin.png'
-            });
-            gMarkers.push(marker);
-        })
+function addMarker(loc) {
+
+    const marker = new google.maps.Marker({
+        position: { lat: loc.lat, lng: loc.lng },
+        map: gMap,
+        title: loc.name,
+        animation: google.maps.Animation.DROP,
+        id: loc.id,
+        icon: 'imgs/pin.png'
+    });
+    gMarkers.push(marker);
 }
 
 function deleteMarker(markerId) {
@@ -69,7 +64,6 @@ function deleteMarker(markerId) {
 function panTo(lat, lng) {
     const latLng = new google.maps.LatLng(lat, lng);
     gMap.panTo(latLng);
-
 }
 
 function getPosition() {
