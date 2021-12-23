@@ -43,11 +43,6 @@ function deleteLoc(locId) {
     locs.splice(locIdx, 1);
 }
 
-function setLocGeoName(locId, geoName) {
-    const loc = locs.find(loc => loc.id === locId)
-    loc.geoName = geoName
-}
-
 getWeather(32.047104, 34.832384)
 
 function getWeather(lat, lng) {
