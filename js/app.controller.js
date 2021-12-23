@@ -42,13 +42,13 @@ function renderLocs() {
     locService.getLocs()
         .then(locs => {
             const locsHTMLs = locs.map(loc => `
-            <tr>
-                <td>${loc.name}</td>
-                <td>
+            <div class="location-line flex justify-between">
+                <p>${loc.name}</p>
+                <div>
                     <button class="loc-btn fas fa-location-arrow" onclick="onGoTo('${loc.id}')"></button>
                     <button class="loc-btn fas fa-trash" onclick="onDeleteLoc('${loc.id}')"></button>
-                </td>
-            </tr>`)
+                </div>
+            </div>`)
             document.querySelector('.locs-table tbody').innerHTML = locsHTMLs.join('');
         })
 }

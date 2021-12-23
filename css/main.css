@@ -1,5 +1,5 @@
 :root{
-    --main-green:#21379b;
+    --main-blue:#21379b;
 }
 
 
@@ -9,11 +9,11 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Poppins';
 }
 
 html {
     font-size: 16px;
-    font-family: 'Poppins';
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -27,6 +27,7 @@ body{
 
 button{
     cursor: pointer;
+
 }
 
 
@@ -74,25 +75,19 @@ button{
 
 /* BUTTONS */
 
-.search-btn {
+.search-btn.fa-location-arrow {
     padding: 12px 20px 12px 10px;
     border: none;
-    background-color: var(--main-green);
+    background-color: var(--main-blue);
     border-end-end-radius: 2em;
     border-start-end-radius: 2em;
     color: white;
-    /* font-weight: 80; */
     font-size: 1.1rem;
 }
 
 .search-btn:hover {
-    /* opacity: .7; */
-    background: linear-gradient(90deg, var(--main-green) 19%, #236523 100%);
+    background: linear-gradient(90deg, var(--main-blue) 19%, #2c364e 100%);
     cursor: pointer;
-}
-
-.search-btn:active {
-    transform: scale(.95);
 }
 
 .search-btn::before:hover{
@@ -102,7 +97,8 @@ button{
 .loc-btn{
     border: none;
     background: none;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+    margin: 0 5px;
 }
 
 .user-pos-btn{
@@ -117,6 +113,16 @@ button{
     color: rgb(68, 68, 68);
 }
 
+.btn-copy-link{
+    align-self: flex-start;
+    margin: 10px 0;
+    padding: 7px 10px;
+    border-radius: 4em;
+    border: none;
+    background-color: var(--main-blue);
+    color: white;
+}
+
 /********** START **********/
 
 /* HEADER */
@@ -126,10 +132,14 @@ header{
     padding: 7px 0;
 }
 
+header>div{
+    gap: 10px;
+}
+
 h1 {
     font-size: 2.5rem;
     letter-spacing: -2px;
-    color: var(--main-green);
+    color: var(--main-blue);
 }
 
 input[type="search"] {
@@ -140,7 +150,7 @@ input[type="search"] {
     outline: none;
     border-end-start-radius: 2em;
     border-start-start-radius: 2em;
-    background:  linear-gradient(90deg, rgba(255,255,255,1) 87%, var(--main-green) 99%);
+    background:  linear-gradient(90deg, rgba(255,255,255,1) 87%, var(--main-blue) 99%);
 }
 
 /* TO BE GIVEN A NAME / CHANGED POSITION */
@@ -159,33 +169,115 @@ main{
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
+    flex:1;
+    grid-template-areas: 
+    "info map"
+    "locs map";
+    width: 100%;
 }
 
-/* .chosen-loc-info{
-    justify-self:flex-start;
-} */
+main>*{
+    width: 100%;
+}
+
+.chosen-loc-info{
+    height: 100%;
+    grid-area: info;
+}
 
 /* WEATHER */
 
+.weather{
+    text-align: center;
+}
+
+.weather img{
+    width:150px;
+    background: radial-gradient(circle, rgba(33,55,155,1) 0%, rgba(48,72,173,1) 14%, rgba(255,255,255,0.9053337191358025) 51%, rgba(255,255,255,0.8991608796296297) 65%);
+}
+
+.weather h5{
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+
 /* LOCATIONS TABLE */
+
+.my-locations{
+    height: 100%;
+}
 
 .my-locations h2{
     text-align: center;
     font-size: 1.3rem;
     background-color: rgb(209, 209, 209);
-    color: var(--main-green);
+    color: var(--main-blue);
     padding: 5px;
+    grid-area: locs;
 }
 
 .locs-table{
-    align-self: start;
     width: 100%;
+    font-size: 1.2rem;
+}
+
+.location-line{
+    padding: 7px;
+    border-bottom: 1px rgba(163, 163, 163, 0.212) solid;
+}
+
+.fa-trash{
+    color: #dd6464;
+}
+
+.fa-location-arrow{
+    color: rgb(102, 102, 102);
 }
 
 /* MAP */
 
 #map {
-    height: 650px;
-    grid-row: 1/3;
-    grid-column: 2/3;
+    grid-area: map;
+}
+
+footer{
+    background-color: var(--main-blue);
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+
+@media(min-width:960px){
+    main{
+        grid-template-columns: 1fr 2fr;
+    }
+}
+
+
+@media(max-width:700px){
+    main{
+        grid-template-areas: 
+        "map map"
+        "info locs";
+    }
+}
+
+@media(max-width:630px){
+ main.main-layout{
+    grid-template-columns: 1fr;
+    grid-template-rows: 100vw auto auto ;
+    grid-template-areas: 
+    "map"
+    "info"
+    "locs";
+    padding: 0;
+ }   
+ header>div{
+     flex-direction: column;
+ 
+ }
+ .curr-location{
+     text-align: center;
+ }
 }

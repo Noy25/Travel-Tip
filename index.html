@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 
-<body>
+<body class="flex column">
 
     <header>
         <div class="main-layout flex justify-between align-center">
@@ -30,10 +30,9 @@
         </div>
     </header>
 
-    <main>
+    <main class="main-layout">
 
-
-        <section class="chosen-loc-info main-layout">
+        <section class="chosen-loc-info main-layout flex column justify-between">
             <h2 class="curr-location">Hadar Ganim, Petah Tikwa</h2>
 
             <!-- WEATHER -->
@@ -51,7 +50,7 @@
         <section class="my-locations">
 
             <h2>My locations</h2>
-            <table class="locs-table">
+            <table class="locs-table main-layout">
                 <tbody>
 
                 </tbody>
@@ -64,7 +63,7 @@
 
     <footer>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit non quod at!</p>
-        <p>© N&S Ltd.</p>
+        <small>© N&S Ltd.</small>
     </footer>
 
     <button onclick="onGetUserPos()" class="user-pos-btn fas fa-2x fa-crosshairs"></button>
