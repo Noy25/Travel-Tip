@@ -22,7 +22,6 @@
     <header>
         <div class="main-layout flex justify-between align-center">
             <h1>Travel Tipot<span>.</span></h1>
-            <!-- <p>save your favorite locations</p> -->
             <form class="flex" onsubmit="onSearch(event)">
                 <input type="search" placeholder="Enter location" autocomplete>
                 <button class="fas fa-location-arrow search-btn"></button>
@@ -31,33 +30,26 @@
     </header>
 
     <main class="main-layout">
-
         <section class="chosen-loc-info main-layout flex column justify-between">
             <h2 class="curr-location">Hadar Ganim, Petah Tikwa</h2>
 
             <!-- WEATHER -->
-
             <div class="weather"></div>
 
             <button onclick="onCopyLink()" class="btn-copy-link">Copy link</button>
         </section>
 
         <!-- MAP -->
-
         <div id="map"></div>
 
         <!-- LOCATIONS TABLE -->
         <section class="my-locations">
-
             <h2>My locations</h2>
             <table class="locs-table main-layout">
                 <tbody>
-
                 </tbody>
             </table>
         </section>
-
-
 
     </main>
 
@@ -67,8 +59,6 @@
     </footer>
 
     <button onclick="onGetUserPos()" class="user-pos-btn fas fa-2x fa-crosshairs"></button>
-
-
 
     <script src="lib/axios.js"></script>
     <script src="lib/swal.js"></script>

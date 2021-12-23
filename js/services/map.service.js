@@ -24,11 +24,24 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
             })
             const locBtn = document.querySelector('.user-pos-btn');
             gMap.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locBtn);
-            // Adds marker on location
             locService.getLocs()
                 .then(locs => locs.forEach(loc => addMarker(loc.id)))
             gMap.addListener("click", onAddLoc)
         })
+}
+
+function _connectGoogleApi() {
+    if (window.google) return Promise.resolve();
+    const API_KEY = 'AIzaSyAwzx_-3Ln2T1cFrXbqPwyuBhpVIA4N2IY';
+    const elGoogleApi = document.createElement('script');
+    elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
+    elGoogleApi.async = true;
+    document.body.append(elGoogleApi);
+
+    return new Promise((resolve, reject) => {
+        elGoogleApi.onload = resolve;
+        elGoogleApi.onerror = () => reject('Google script failed to load')
+    })
 }
 
 function addMarker(locId) {
@@ -47,27 +60,18 @@ function addMarker(locId) {
         })
 }
 
+function deleteMarker(markerId) {
+    const markerIdx = gMarkers.findIndex(marker => marker.id === markerId);
+    gMarkers[markerIdx].setMap(null);
+    gMarkers.splice(markerIdx, 1);
+}
+
 function panTo(lat, lng) {
     const latLng = new google.maps.LatLng(lat, lng);
     gMap.panTo(latLng);
 
 }
 
-function _connectGoogleApi() {
-    if (window.google) return Promise.resolve();
-    const API_KEY = 'AIzaSyAwzx_-3Ln2T1cFrXbqPwyuBhpVIA4N2IY';
-    const elGoogleApi = document.createElement('script');
-    elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
-    elGoogleApi.async = true;
-    document.body.append(elGoogleApi);
-
-    return new Promise((resolve, reject) => {
-        elGoogleApi.onload = resolve;
-        elGoogleApi.onerror = () => reject('Google script failed to load')
-    })
-}
-
-// This function provides a Promise API to the callback-based-api of getCurrentPosition
 function getPosition() {
     console.log('Getting Pos');
     return new Promise((resolve, reject) => {
@@ -94,10 +98,4 @@ function getGeoLoc(searchedLoc, locLat, locLng) {
             panTo(lat, lng);
             return { lat, lng, geoName }
         })
-}
-
-function deleteMarker(markerId) {
-    const markerIdx = gMarkers.findIndex(marker => marker.id === markerId);
-    gMarkers[markerIdx].setMap(null);
-    gMarkers.splice(markerIdx, 1);
 }

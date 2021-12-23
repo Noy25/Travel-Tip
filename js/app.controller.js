@@ -1,4 +1,3 @@
-// export const appController={onAddLoc}
 import { locService } from './services/location.service.js'
 import { mapService } from './services/map.service.js'
 
@@ -33,9 +32,15 @@ function onInit() {
         .catch(() => console.log('Error: cannot init map'));
 }
 
-function onAddMarker() {
-    console.log('Adding a marker');
-    mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
+function renderWeather(weather) {
+    const elWeather = document.querySelector('.weather');
+
+    const strHTML = `<h2>Weather today</h2>
+    <img src="${weather.weatherImg}">
+    <h4>${weather.locName}, ${weather.country}, <span>${weather.weatherDescription}</span></h4>
+    <h5><span>${weather.tempNow}</span> temperature from ${weather.tempMin} to ${weather.tempMax}, wind ${weather.windSpeed} m/s.</h5>`;
+
+    elWeather.innerHTML = strHTML;
 }
 
 function renderLocs() {
@@ -51,6 +56,16 @@ function renderLocs() {
             </div>`)
             document.querySelector('.locs-table tbody').innerHTML = locsHTMLs.join('');
         })
+}
+
+function renderLocationName(geoLocName, locName) {
+    const elLocationName = document.querySelector('.curr-location');
+    elLocationName.innerText = (locName) ? `${locName} (${geoLocName})` : geoLocName;
+}
+
+function onCopyLink() {
+    const text = `https://noy25.github.io/Travel-Tip/index.html?lat=${gCurrLatLng.lat}&lng=${gCurrLatLng.lng}`
+    navigator.clipboard.writeText(text);
 }
 
 function onGetUserPos() {
@@ -75,31 +90,6 @@ function onGoTo(locId) {
             renderLocationName(geoName, name);
             locService.getWeather(lat, lng)
                 .then(renderWeather)
-        })
-}
-
-function onAddLoc(mapEv) {
-    const { lat, lng } = mapEv.latLng.toJSON();
-
-    Swal.fire({
-        input: 'text',
-        inputLabel: 'Enter location name :',
-        inputPlaceholder: 'e.g. "Puki\'s House"'
-    })
-        .then((res) => {
-            if (res.isConfirmed && res.value.length > 0) {
-                const locName = res.value
-                gCurrLatLng = { lat, lng };
-                mapService.getGeoLoc(undefined, lat, lng)
-                    .then(geoLoc => {
-                        const locId = locService.addLoc(locName, geoLoc.geoName, geoLoc.lat, geoLoc.lng);
-                        mapService.addMarker(locId);
-                        renderLocationName(geoLoc.geoName, locName);
-                        renderLocs();
-                        locService.getWeather(lat, lng)
-                            .then(renderWeather);
-                    })
-            }
         })
 }
 
@@ -129,6 +119,36 @@ function onDeleteLoc(locId) {
         })
 }
 
+function onAddLoc(mapEv) {
+    const { lat, lng } = mapEv.latLng.toJSON();
+
+    Swal.fire({
+        input: 'text',
+        inputLabel: 'Enter location name :',
+        inputPlaceholder: 'e.g. "Puki\'s House"'
+    })
+        .then((res) => {
+            if (res.isConfirmed && res.value.length > 0) {
+                const locName = res.value
+                gCurrLatLng = { lat, lng };
+                mapService.getGeoLoc(undefined, lat, lng)
+                    .then(geoLoc => {
+                        const locId = locService.addLoc(locName, geoLoc.geoName, geoLoc.lat, geoLoc.lng);
+                        mapService.addMarker(locId);
+                        renderLocationName(geoLoc.geoName, locName);
+                        renderLocs();
+                        locService.getWeather(lat, lng)
+                            .then(renderWeather);
+                    })
+            }
+        })
+}
+
+function onAddMarker() {
+    console.log('Adding a marker');
+    mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
+}
+
 function onSearch(ev) {
     ev.preventDefault();
     const elInputSearch = document.querySelector('input[type="search"]');
@@ -143,36 +163,15 @@ function onSearch(ev) {
             if (res.isConfirmed && res.value.length > 0) {
                 const locName = res.value
                 mapService.getGeoLoc(elInputSearch.value)
-                .then(geoLoc => {
-                    const locId = locService.addLoc(locName, geoLoc.geoName, geoLoc.lat, geoLoc.lng);
-                    mapService.addMarker(locId);
-                    renderLocationName(geoLoc.geoName);
-                    renderLocs()
-                    elInputSearch.value = '';
-                    locService.getWeather(geoLoc.lat, geoLoc.lng)
-                        .then(renderWeather)
-                })
+                    .then(geoLoc => {
+                        const locId = locService.addLoc(locName, geoLoc.geoName, geoLoc.lat, geoLoc.lng);
+                        mapService.addMarker(locId);
+                        renderLocationName(geoLoc.geoName);
+                        renderLocs()
+                        elInputSearch.value = '';
+                        locService.getWeather(geoLoc.lat, geoLoc.lng)
+                            .then(renderWeather)
+                    })
             }
         })
-}
-
-function onCopyLink() {
-    const text = `https://noy25.github.io/Travel-Tip/index.html?lat=${gCurrLatLng.lat}&lng=${gCurrLatLng.lng}`
-    navigator.clipboard.writeText(text);
-}
-
-function renderLocationName(geoLocName, locName) {
-    const elLocationName = document.querySelector('.curr-location');
-    elLocationName.innerText = (locName) ? `${locName} (${geoLocName})` : geoLocName;
-}
-
-function renderWeather(weather) {
-    const elWeather = document.querySelector('.weather');
-
-    const strHTML = `<h2>Weather today</h2>
-    <img src="${weather.weatherImg}">
-    <h4>${weather.locName}, ${weather.country}, <span>${weather.weatherDescription}</span></h4>
-    <h5><span>${weather.tempNow}</span> temperature from ${weather.tempMin} to ${weather.tempMax}, wind ${weather.windSpeed} m/s.</h5>`;
-
-    elWeather.innerHTML = strHTML;
 }
