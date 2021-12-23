@@ -40,7 +40,8 @@ function addMarker(locId) {
                 map: gMap,
                 title: loc.name,
                 animation: google.maps.Animation.DROP,
-                id: loc.id
+                id: loc.id,
+                icon: 'imgs/pin.png'
             });
             gMarkers.push(marker);
         })
@@ -90,7 +91,6 @@ function getGeoLoc(searchedLoc, locLat, locLng) {
         .then(ans => {
             const geoName = ans.data.results[0].formatted_address;
             const { lat, lng } = ans.data.results[0].geometry.location;
-            console.log('lat', lat, 'lng', lng);
             panTo(lat, lng);
             return { lat, lng, geoName }
         })

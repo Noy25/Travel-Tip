@@ -29,9 +29,7 @@ function onInit() {
     locService.getWeather(gCurrLatLng.lat, gCurrLatLng.lng)
         .then(renderWeather);
     mapService.initMap(lat, lng)
-        .then(() => {
-            console.log('Map is ready');
-        })
+        .then()
         .catch(() => console.log('Error: cannot init map'));
 }
 
@@ -82,41 +80,79 @@ function onGoTo(locId) {
 
 function onAddLoc(mapEv) {
     const { lat, lng } = mapEv.latLng.toJSON();
-    const name = prompt('Insert place name:');
-    if (!name) return
-    gCurrLatLng = { lat, lng };
-    mapService.getGeoLoc(undefined, lat, lng)
-        .then(geoLoc => {
-            const locId = locService.addLoc(name, geoLoc.geoName, geoLoc.lat, geoLoc.lng);
-            mapService.addMarker(locId);
-            renderLocationName(geoLoc.geoName, name);
-            renderLocs();
-            locService.getWeather(lat, lng)
-                .then(renderWeather);
+
+    Swal.fire({
+        input: 'text',
+        inputLabel: 'Enter location name :',
+        inputPlaceholder: 'e.g. "Puki\'s House"'
+    })
+        .then((res) => {
+            if (res.isConfirmed && res.value.length > 0) {
+                const locName = res.value
+                gCurrLatLng = { lat, lng };
+                mapService.getGeoLoc(undefined, lat, lng)
+                    .then(geoLoc => {
+                        const locId = locService.addLoc(locName, geoLoc.geoName, geoLoc.lat, geoLoc.lng);
+                        mapService.addMarker(locId);
+                        renderLocationName(geoLoc.geoName, locName);
+                        renderLocs();
+                        locService.getWeather(lat, lng)
+                            .then(renderWeather);
+                    })
+            }
         })
 }
 
 function onDeleteLoc(locId) {
-    if (!confirm('are you sure?')) return;
-    locService.deleteLoc(locId);
-    mapService.deleteMarker(locId);
-    renderLocs();
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#21379b',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    })
+        .then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+                    .then(() => {
+                        locService.deleteLoc(locId);
+                        mapService.deleteMarker(locId);
+                        renderLocs();
+                    })
+            }
+        })
 }
 
 function onSearch(ev) {
     ev.preventDefault();
     const elInputSearch = document.querySelector('input[type="search"]');
     if (!elInputSearch.value) return;
-    const name = prompt('Insert place name:');
-    mapService.getGeoLoc(elInputSearch.value)
-        .then(geoLoc => {
-            const locId = locService.addLoc(name, geoLoc.geoName, geoLoc.lat, geoLoc.lng);
-            mapService.addMarker(locId);
-            renderLocationName(geoLoc.geoName);
-            renderLocs()
-            elInputSearch.value = '';
-            locService.getWeather(geoLoc.lat, geoLoc.lng)
-                .then(renderWeather)
+
+    Swal.fire({
+        input: 'text',
+        inputLabel: 'Enter location name :',
+        inputPlaceholder: 'e.g. "Puki\'s House"'
+    })
+        .then((res) => {
+            if (res.isConfirmed && res.value.length > 0) {
+                const locName = res.value
+                mapService.getGeoLoc(elInputSearch.value)
+                .then(geoLoc => {
+                    const locId = locService.addLoc(locName, geoLoc.geoName, geoLoc.lat, geoLoc.lng);
+                    mapService.addMarker(locId);
+                    renderLocationName(geoLoc.geoName);
+                    renderLocs()
+                    elInputSearch.value = '';
+                    locService.getWeather(geoLoc.lat, geoLoc.lng)
+                        .then(renderWeather)
+                })
+            }
         })
 }
 
