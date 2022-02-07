@@ -28,7 +28,11 @@ function onInit() {
     locService.getWeather(gCurrLatLng.lat, gCurrLatLng.lng)
         .then(renderWeather);
     mapService.initMap(lat, lng)
-        .then()
+        .then((map) => {
+            const locBtn = document.querySelector('.user-pos-btn');
+            map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locBtn);
+            map.addListener("click", onAddLoc)
+        })
         .catch(() => console.log('Error: cannot init map'));
 }
 
@@ -63,9 +67,13 @@ function renderLocationName(geoLocName, locName) {
     elLocationName.innerText = (locName) ? `${locName} (${geoLocName})` : geoLocName;
 }
 
-function onCopyLink() {
+function onCopyLink(elBtn) {
     const text = `https://noy25.github.io/Travel-Tip/index.html?lat=${gCurrLatLng.lat}&lng=${gCurrLatLng.lng}`
     navigator.clipboard.writeText(text);
+    elBtn.innerText = 'Copied!'
+    setTimeout(() => {
+        elBtn.innerText = 'Copy link'
+    }, 2000)
 }
 
 function onGetUserPos() {
@@ -133,8 +141,8 @@ function onAddLoc(mapEv) {
                 gCurrLatLng = { lat, lng };
                 mapService.getGeoLoc(undefined, lat, lng)
                     .then(geoLoc => {
-                        const locId = locService.addLoc(locName, geoLoc.geoName, geoLoc.lat, geoLoc.lng);
-                        mapService.addMarker(locId);
+                        const loc = locService.addLoc(locName, geoLoc.geoName, geoLoc.lat, geoLoc.lng);
+                        mapService.addMarker(loc);
                         renderLocationName(geoLoc.geoName, locName);
                         renderLocs();
                         locService.getWeather(lat, lng)
@@ -164,8 +172,8 @@ function onSearch(ev) {
                 const locName = res.value
                 mapService.getGeoLoc(elInputSearch.value)
                     .then(geoLoc => {
-                        const locId = locService.addLoc(locName, geoLoc.geoName, geoLoc.lat, geoLoc.lng);
-                        mapService.addMarker(locId);
+                        const loc = locService.addLoc(locName, geoLoc.geoName, geoLoc.lat, geoLoc.lng);
+                        mapService.addMarker(loc);
                         renderLocationName(geoLoc.geoName);
                         renderLocs()
                         elInputSearch.value = '';

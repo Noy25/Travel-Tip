@@ -6,6 +6,7 @@ export const locService = {
 }
 
 import { utils } from '../utils.js'
+import { API_KEYS } from './api.js'
 
 const WEATHER_API_KEY = 'fd23a7ed425718a8f157d79ae6a243fa';
 
@@ -35,7 +36,7 @@ function getLocs() {
 function addLoc(name, geoName, lat, lng) {
     const loc = createLoc(name, geoName, lat, lng)
     locs.push(loc);
-    return loc.id;
+    return loc;
 }
 
 function deleteLoc(locId) {
