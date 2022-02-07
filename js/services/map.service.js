@@ -1,3 +1,5 @@
+import { MAP_API_KEY, GEO_API_KEY } from '../../api-keys.js';
+
 export const mapService = {
     initMap,
     addMarker,
@@ -8,7 +10,6 @@ export const mapService = {
 }
 import { locService } from './location.service.js'
 
-const GEO_API_KEY = 'AIzaSyCVc806N2WWOK0bNSHTXEBKtAjdb3FhvmM';
 
 let gMap;
 const gMarkers = [];
@@ -32,9 +33,8 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve();
-    const API_KEY = 'AIzaSyAwzx_-3Ln2T1cFrXbqPwyuBhpVIA4N2IY';
     const elGoogleApi = document.createElement('script');
-    elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
+    elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${MAP_API_KEY}`;
     elGoogleApi.async = true;
     document.body.append(elGoogleApi);
 
